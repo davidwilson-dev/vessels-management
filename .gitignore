@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+admin/node_modules/
+server/node_modules/
+
+# Build output
+dist/
+build/
+coverage/
+admin/dist/
+admin/dist-ssr/
+
+# Environment files
+.env
+.env.*
+!.env.example
+admin/.env
+server/.env
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Editor and OS files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

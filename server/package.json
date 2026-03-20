@@ -1,0 +1,42 @@
+{
+  "name": "node-auth-api",
+  "version": "1.0.0",
+  "description": "Node.js backend authentication API using Access Token and Refresh Token",
+  "type": "module",
+  "main": "src/server.js",
+  "imports": {
+    "#/*": "./src/*"
+  },
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "authentication",
+    "jwt",
+    "access-token",
+    "refresh-token",
+    "api"
+  ],
+  "author": "David Wilson",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "http-status-codes": "^2.3.0",
+    "joi": "^18.0.2",
+    "jsonwebtoken": "^9.0.3",
+    "module-alias": "^2.3.4",
+    "mongoose": "^9.2.4",
+    "nodemailer": "^8.0.2",
+    "ua-parser-js": "^2.0.9"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
