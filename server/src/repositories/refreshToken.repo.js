@@ -1,4 +1,4 @@
-import { RefreshToken } from "#/models/refreshToken.model.js"
+import { RefreshToken } from "#/models/user-auth/refreshToken.model.js"
 
 const create = (data) => {
   return RefreshToken.create(data)

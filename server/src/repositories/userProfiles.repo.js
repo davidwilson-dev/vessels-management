@@ -1,4 +1,4 @@
-import { UserProfile } from "#/models/userProfile.model.js"
+import { UserProfile } from "#/models/user-auth/userProfile.model.js"
 
 const getUserProfiles = async (limit, skip) => {
   const users = await UserProfile.find()

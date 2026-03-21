@@ -1,4 +1,4 @@
-import { AuditLog } from "#/models/auditLog.model.js";
+import { AuditLog } from "#/models/log/auditLog.model.js";
 
 const create = (data) => {
   return AuditLog.create(data);

@@ -1,4 +1,4 @@
-import { User } from "#/models/user.model.js"
+import { User } from "#/models/user-auth/user.model.js"
 
 const findByEmail= (email) => {
   return User.findOne({ email })

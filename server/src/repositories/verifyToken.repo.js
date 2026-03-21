@@ -1,4 +1,4 @@
-import { VerifyToken } from "#/models/verifyToken.model.js"
+import { VerifyToken } from "#/models/user-auth/verifyToken.model.js"
 
 const create = (data) => {
   return VerifyToken.create(data)
