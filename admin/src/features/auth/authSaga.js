@@ -12,6 +12,8 @@ import {
   restoreSessionSuccess,
 } from './authSlice'
 import { resetUsersState } from '../users/usersSlice'
+import { resetVesselsState } from '../vessels/vesselsSlice'
+import { resetCrewMembersState } from '../crew-members/crewMembersSlice'
 import { getApiErrorMessage } from '../../shared/utils/format'
 import { clearSession, readSession, writeSession } from '../../shared/utils/session'
 
@@ -30,6 +32,8 @@ function* restoreSessionWorker() {
   } catch {
     yield call(clearSession)
     yield put(resetUsersState())
+    yield put(resetVesselsState())
+    yield put(resetCrewMembersState())
     yield put(restoreSessionFailure())
   }
 }
@@ -55,6 +59,8 @@ function* logoutUserWorker(action) {
   } finally {
     yield call(clearSession)
     yield put(resetUsersState())
+    yield put(resetVesselsState())
+    yield put(resetCrewMembersState())
     yield put(logoutUserSuccess())
     action.meta?.deferred?.resolve()
   }

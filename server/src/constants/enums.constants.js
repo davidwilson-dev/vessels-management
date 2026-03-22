@@ -14,6 +14,8 @@ export const EQUIPMENT_STATUS = [
 
 export const CREW_STATUS = ['active', 'inactive', 'on_leave', 'retired'];
 
+export const COMPANY_STATUS = ['active', 'inactive'];
+
 export const CREW_ROLES = [
   'captain',
   'chief_engineer',

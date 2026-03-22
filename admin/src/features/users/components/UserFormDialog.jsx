@@ -3,6 +3,7 @@ import { Controller, useForm } from 'react-hook-form'
 import {
   Box,
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -22,7 +23,7 @@ import {
   toIsoDateString,
 } from '../../../shared/utils/format'
 
-function UserFormDialog({ open, mode, initialUser, onClose, onSubmit, submitting }) {
+function UserFormDialog({ open, mode, initialUser, onClose, onSubmit, loading = false, submitting }) {
   const isEditMode = mode === 'edit'
 
   const initialValues = useMemo(
@@ -89,180 +90,200 @@ function UserFormDialog({ open, mode, initialUser, onClose, onSubmit, submitting
     await onSubmit(payload)
   })
 
-  const isBusy = submitting || isSubmitting
+  const isBusy = loading || submitting || isSubmitting
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
-      <DialogTitle>{isEditMode ? 'Edit User' : 'Create User'}</DialogTitle>
+      <DialogTitle>
+        {loading
+          ? 'Loading User'
+          : isEditMode
+            ? 'Edit User'
+            : 'Create User'}
+      </DialogTitle>
       <DialogContent dividers>
-        <Stack spacing={2.5}>
-          <Typography variant="body2" color="text.secondary">
-            {isEditMode
-              ? 'Update access settings and profile details for this team member.'
-              : 'Create a staff user that fits the same operational structure as the vessel manager interface.'}
-          </Typography>
+        {loading ? (
+          <Stack spacing={2} alignItems="center" justifyContent="center" sx={{ py: 6 }}>
+            <CircularProgress size={32} />
+            <Box sx={{ textAlign: 'center' }}>
+              <Typography variant="h6" sx={{ fontWeight: 800 }}>
+                Loading user details
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Preparing the edit form for this account.
+              </Typography>
+            </Box>
+          </Stack>
+        ) : (
+          <Stack spacing={2.5}>
+            <Typography variant="body2" color="text.secondary">
+              {isEditMode
+                ? 'Update access settings and profile details for this team member.'
+                : 'Create a staff user that fits the same operational structure as the vessel manager interface.'}
+            </Typography>
 
-          <Box
-            sx={{
-              display: 'grid',
-              gridTemplateColumns: { xs: '1fr', md: 'repeat(2, minmax(0, 1fr))' },
-              gap: 2,
-            }}
-          >
-            <TextField
-              label="Full name"
-              error={Boolean(errors.name)}
-              helperText={errors.name?.message}
-              {...register('name', {
-                required: 'Name is required.',
-                minLength: {
-                  value: 3,
-                  message: 'Name should have at least 3 characters.',
-                },
-              })}
-            />
-
-            <TextField
-              label="Email"
-              type="email"
-              error={Boolean(errors.email)}
-              helperText={errors.email?.message}
-              {...register('email', {
-                required: 'Email is required.',
-                pattern: {
-                  value: /^\S+@\S+\.\S+$/,
-                  message: 'Enter a valid email address.',
-                },
-              })}
-            />
-
-            <TextField
-              label="Password"
-              type="password"
-              error={Boolean(errors.password)}
-              helperText={errors.password?.message || (isEditMode ? 'Leave blank to keep the current password.' : PASSWORD_RULE_MESSAGE)}
-              {...register('password', {
-                validate: (value) => {
-                  if (!value) {
-                    return isEditMode ? true : 'Password is required.'
-                  }
-
-                  return PASSWORD_RULE.test(value) || PASSWORD_RULE_MESSAGE
-                },
-              })}
-            />
-
-            <TextField
-              label="Date of birth"
-              type="date"
-              InputLabelProps={{ shrink: true }}
-              error={Boolean(errors.dateOfBirth)}
-              helperText={errors.dateOfBirth?.message}
-              {...register('dateOfBirth', {
-                required: isEditMode ? undefined : 'Date of birth is required.',
-              })}
-            />
-
-            <TextField
-              label="Phone number"
-              error={Boolean(errors.phoneNumber)}
-              helperText={errors.phoneNumber?.message}
-              {...register('phoneNumber')}
-            />
-
-            <TextField
-              label="Position"
-              error={Boolean(errors.position)}
-              helperText={errors.position?.message}
-              {...register('position')}
-            />
-
-            <Controller
-              name="gender"
-              control={control}
-              render={({ field }) => (
-                <TextField select label="Gender" {...field}>
-                  <MenuItem value="Male">Male</MenuItem>
-                  <MenuItem value="Female">Female</MenuItem>
-                  <MenuItem value="Other">Other</MenuItem>
-                </TextField>
-              )}
-            />
-
-            <TextField
-              label="ID card number"
-              error={Boolean(errors.idCardNumber)}
-              helperText={errors.idCardNumber?.message}
-              {...register('idCardNumber')}
-            />
-
-            <TextField
-              label="Address"
-              sx={{ gridColumn: { md: '1 / -1' } }}
-              error={Boolean(errors.address)}
-              helperText={errors.address?.message}
-              {...register('address')}
-            />
-
-            <TextField
-              label="Avatar URL"
-              sx={{ gridColumn: { md: '1 / -1' } }}
-              error={Boolean(errors.avatarUrl)}
-              helperText={errors.avatarUrl?.message || 'Optional. Must be an http(s) URL if provided.'}
-              {...register('avatarUrl', {
-                validate: (value) => !value || /^https?:\/\//.test(value) || 'Use a valid http(s) URL.',
-              })}
-            />
-
-            <TextField
-              label="Bio"
-              multiline
-              minRows={3}
-              sx={{ gridColumn: { md: '1 / -1' } }}
-              error={Boolean(errors.bio)}
-              helperText={errors.bio?.message}
-              {...register('bio')}
-            />
-          </Box>
-
-          {isEditMode ? (
             <Box
               sx={{
                 display: 'grid',
-                gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, minmax(0, 1fr))' },
+                gridTemplateColumns: { xs: '1fr', md: 'repeat(2, minmax(0, 1fr))' },
                 gap: 2,
               }}
             >
+              <TextField
+                label="Full name"
+                error={Boolean(errors.name)}
+                helperText={errors.name?.message}
+                {...register('name', {
+                  required: 'Name is required.',
+                  minLength: {
+                    value: 3,
+                    message: 'Name should have at least 3 characters.',
+                  },
+                })}
+              />
+
+              <TextField
+                label="Email"
+                type="email"
+                error={Boolean(errors.email)}
+                helperText={errors.email?.message}
+                {...register('email', {
+                  required: 'Email is required.',
+                  pattern: {
+                    value: /^\S+@\S+\.\S+$/,
+                    message: 'Enter a valid email address.',
+                  },
+                })}
+              />
+
+              <TextField
+                label="Password"
+                type="password"
+                error={Boolean(errors.password)}
+                helperText={errors.password?.message || (isEditMode ? 'Leave blank to keep the current password.' : PASSWORD_RULE_MESSAGE)}
+                {...register('password', {
+                  validate: (value) => {
+                    if (!value) {
+                      return isEditMode ? true : 'Password is required.'
+                    }
+
+                    return PASSWORD_RULE.test(value) || PASSWORD_RULE_MESSAGE
+                  },
+                })}
+              />
+
+              <TextField
+                label="Date of birth"
+                type="date"
+                InputLabelProps={{ shrink: true }}
+                error={Boolean(errors.dateOfBirth)}
+                helperText={errors.dateOfBirth?.message}
+                {...register('dateOfBirth', {
+                  required: isEditMode ? undefined : 'Date of birth is required.',
+                })}
+              />
+
+              <TextField
+                label="Phone number"
+                error={Boolean(errors.phoneNumber)}
+                helperText={errors.phoneNumber?.message}
+                {...register('phoneNumber')}
+              />
+
+              <TextField
+                label="Position"
+                error={Boolean(errors.position)}
+                helperText={errors.position?.message}
+                {...register('position')}
+              />
+
               <Controller
-                name="isActive"
+                name="gender"
                 control={control}
                 render={({ field }) => (
-                  <FormControlLabel
-                    control={<Switch checked={field.value} onChange={(event) => field.onChange(event.target.checked)} />}
-                    label="Account is active"
-                  />
+                  <TextField select label="Gender" {...field}>
+                    <MenuItem value="Male">Male</MenuItem>
+                    <MenuItem value="Female">Female</MenuItem>
+                    <MenuItem value="Other">Other</MenuItem>
+                  </TextField>
                 )}
               />
-              <Controller
-                name="emailVerified"
-                control={control}
-                render={({ field }) => (
-                  <FormControlLabel
-                    control={<Switch checked={field.value} onChange={(event) => field.onChange(event.target.checked)} />}
-                    label="Email is verified"
-                  />
-                )}
+
+              <TextField
+                label="ID card number"
+                error={Boolean(errors.idCardNumber)}
+                helperText={errors.idCardNumber?.message}
+                {...register('idCardNumber')}
+              />
+
+              <TextField
+                label="Address"
+                sx={{ gridColumn: { md: '1 / -1' } }}
+                error={Boolean(errors.address)}
+                helperText={errors.address?.message}
+                {...register('address')}
+              />
+
+              <TextField
+                label="Avatar URL"
+                sx={{ gridColumn: { md: '1 / -1' } }}
+                error={Boolean(errors.avatarUrl)}
+                helperText={errors.avatarUrl?.message || 'Optional. Must be an http(s) URL if provided.'}
+                {...register('avatarUrl', {
+                  validate: (value) => !value || /^https?:\/\//.test(value) || 'Use a valid http(s) URL.',
+                })}
+              />
+
+              <TextField
+                label="Bio"
+                multiline
+                minRows={3}
+                sx={{ gridColumn: { md: '1 / -1' } }}
+                error={Boolean(errors.bio)}
+                helperText={errors.bio?.message}
+                {...register('bio')}
               />
             </Box>
-          ) : null}
-        </Stack>
+
+            {isEditMode ? (
+              <Box
+                sx={{
+                  display: 'grid',
+                  gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, minmax(0, 1fr))' },
+                  gap: 2,
+                }}
+              >
+                <Controller
+                  name="isActive"
+                  control={control}
+                  render={({ field }) => (
+                    <FormControlLabel
+                      control={<Switch checked={field.value} onChange={(event) => field.onChange(event.target.checked)} />}
+                      label="Account is active"
+                    />
+                  )}
+                />
+                <Controller
+                  name="emailVerified"
+                  control={control}
+                  render={({ field }) => (
+                    <FormControlLabel
+                      control={<Switch checked={field.value} onChange={(event) => field.onChange(event.target.checked)} />}
+                      label="Email is verified"
+                    />
+                  )}
+                />
+              </Box>
+            ) : null}
+          </Stack>
+        )}
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="inherit">
+        <Button onClick={onClose} color="inherit" disabled={submitting || isSubmitting}>
           Cancel
         </Button>
         <Button onClick={handleFormSubmit} variant="contained" disabled={isBusy}>
-          {isBusy ? 'Saving...' : isEditMode ? 'Save Changes' : 'Create User'}
+          {loading ? 'Loading...' : isBusy ? 'Saving...' : isEditMode ? 'Save Changes' : 'Create User'}
         </Button>
       </DialogActions>
     </Dialog>

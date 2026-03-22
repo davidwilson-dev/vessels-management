@@ -7,7 +7,7 @@ const errorHandler = (error, req, res, next) => {
     message: error.message || StatusCodes[error.statusCode],
     stack: env.BUILD_MODE !== 'development' ? null : error.stack
   }
-
+  
   res.status(responseError.statusCode).json(responseError)
 };
 
