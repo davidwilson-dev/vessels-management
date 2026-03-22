@@ -15,11 +15,20 @@ import { vesselDeviceTabs } from '../vesselDeviceConfig'
 
 function DetailRow({ label, value }) {
   return (
-    <Box>
-      <Typography variant="overline" color="text.secondary" sx={{ fontWeight: 800 }}>
+    <Box
+      sx={{
+        p: 1.5,
+        borderRadius: 1.5,
+        background: 'linear-gradient(145deg, #082033 0%, #0f2742 65%, #14466c 100%)',
+        color: '#ffffff',
+      }}
+    >
+      <Typography variant="overline" sx={{ fontWeight: 800, color: 'inherit' }}>
         {label}
       </Typography>
-      <Typography variant="body1">{value || 'Not provided'}</Typography>
+      <Typography variant="body1" sx={{ color: 'inherit' }}>
+        {value || 'Not provided'}
+      </Typography>
     </Box>
   )
 }
@@ -117,7 +126,7 @@ function VesselDetailsDrawer({
               <Divider />
 
               <Box>
-                <Typography variant="overline" color="text.secondary" sx={{ fontWeight: 800 }}>
+                <Typography variant="overline" color="text.white" sx={{ fontWeight: 800 }}>
                   Crew Assignments
                 </Typography>
                 <Stack spacing={1.25} sx={{ mt: 1 }}>
@@ -134,14 +143,14 @@ function VesselDetailsDrawer({
                         <Typography variant="subtitle2" sx={{ fontWeight: 800 }}>
                           {assignment.crewMember?.fullName || 'Unknown crew member'}
                         </Typography>
-                        <Typography variant="body2" color="text.secondary">
+                        <Typography variant="body2" color="text.white">
                           {(assignment.role || 'other').replace('_', ' ')} · {formatDate(assignment.startDate)}
                           {assignment.endDate ? ` to ${formatDate(assignment.endDate)}` : ''}
                         </Typography>
                       </Box>
                     ))
                   ) : (
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" color="text.white">
                       No crew assignments are linked to this vessel yet.
                     </Typography>
                   )}
@@ -151,7 +160,7 @@ function VesselDetailsDrawer({
               <Divider />
 
               <Box>
-                <Typography variant="overline" color="text.secondary" sx={{ fontWeight: 800 }}>
+                <Typography variant="overline" color="text.white" sx={{ fontWeight: 800 }}>
                   Device Register
                 </Typography>
                 {deviceSections.length ? (
@@ -168,6 +177,7 @@ function VesselDetailsDrawer({
                               size="small"
                               variant="outlined"
                               label={`${entry.label}: ${entry.count}`}
+                              sx={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.35)' }}
                             />
                           ))}
                         </Stack>
@@ -175,7 +185,7 @@ function VesselDetailsDrawer({
                     ))}
                   </Stack>
                 ) : (
-                  <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                  <Typography variant="body2" color="text.white" sx={{ mt: 1 }}>
                     No onboard devices are linked to this vessel yet.
                   </Typography>
                 )}

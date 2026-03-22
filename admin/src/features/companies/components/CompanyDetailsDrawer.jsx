@@ -14,11 +14,20 @@ import { formatDate, formatDateTime } from '../../../shared/utils/format'
 
 function DetailRow({ label, value }) {
   return (
-    <Box>
-      <Typography variant="overline" color="text.secondary" sx={{ fontWeight: 800 }}>
+    <Box
+      sx={{
+        p: 1.5,
+        borderRadius: 1.5,
+        background: 'linear-gradient(145deg, #082033 0%, #0f2742 65%, #14466c 100%)',
+        color: '#ffffff',
+      }}
+    >
+      <Typography variant="overline" sx={{ fontWeight: 800, color: 'inherit' }}>
         {label}
       </Typography>
-      <Typography variant="body1">{value || 'Not provided'}</Typography>
+      <Typography variant="body1" sx={{ color: 'inherit' }}>
+        {value || 'Not provided'}
+      </Typography>
     </Box>
   )
 }
@@ -111,7 +120,7 @@ function CompanyDetailsDrawer({
               <Divider />
 
               <Box>
-                <Typography variant="overline" color="text.secondary" sx={{ fontWeight: 800 }}>
+                <Typography variant="overline" color="text.white" sx={{ fontWeight: 800 }}>
                   Linked Vessels
                 </Typography>
                 <Stack spacing={1.25} sx={{ mt: 1 }}>
@@ -128,14 +137,14 @@ function CompanyDetailsDrawer({
                         <Typography variant="subtitle2" sx={{ fontWeight: 800 }}>
                           {buildVesselLabel(vessel)}
                         </Typography>
-                        <Typography variant="body2" color="text.secondary">
+                        <Typography variant="body2" color="text.white">
                           {(vessel.vesselType || 'other').replace('_', ' ')} · {formatDate(vessel.startDate)}
                           {vessel.endDate ? ` to ${formatDate(vessel.endDate)}` : ''}
                         </Typography>
                       </Box>
                     ))
                   ) : (
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" color="text.white">
                       No vessels are currently linked to this company.
                     </Typography>
                   )}
@@ -145,7 +154,7 @@ function CompanyDetailsDrawer({
               <Divider />
 
               <Box>
-                <Typography variant="overline" color="text.secondary" sx={{ fontWeight: 800 }}>
+                <Typography variant="overline" color="text.white" sx={{ fontWeight: 800 }}>
                   Linked Crew Members
                 </Typography>
                 <Stack spacing={1.25} sx={{ mt: 1 }}>
@@ -162,14 +171,14 @@ function CompanyDetailsDrawer({
                         <Typography variant="subtitle2" sx={{ fontWeight: 800 }}>
                           {buildCrewLabel(crewMember)}
                         </Typography>
-                        <Typography variant="body2" color="text.secondary">
+                        <Typography variant="body2" color="text.white">
                           {crewMember.rank || 'No rank assigned'} · {formatDate(crewMember.startDate)}
                           {crewMember.endDate ? ` to ${formatDate(crewMember.endDate)}` : ''}
                         </Typography>
                       </Box>
                     ))
                   ) : (
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" color="text.white">
                       No crew members are currently linked to this company.
                     </Typography>
                   )}

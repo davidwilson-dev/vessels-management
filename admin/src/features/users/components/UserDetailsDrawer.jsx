@@ -20,11 +20,20 @@ import {
 
 function DetailRow({ label, value }) {
   return (
-    <Box>
-      <Typography variant="overline" color="text.secondary" sx={{ fontWeight: 800 }}>
+    <Box
+      sx={{
+        p: 1.5,
+        borderRadius: 1.5,
+        background: 'linear-gradient(145deg, #082033 0%, #0f2742 65%, #14466c 100%)',
+        color: '#ffffff',
+      }}
+    >
+      <Typography variant="overline" sx={{ fontWeight: 800, color: 'inherit' }}>
         {label}
       </Typography>
-      <Typography variant="body1">{value || 'Not provided'}</Typography>
+      <Typography variant="body1" sx={{ color: 'inherit' }}>
+        {value || 'Not provided'}
+      </Typography>
     </Box>
   )
 }

@@ -14,11 +14,20 @@ import { formatDate, formatDateTime } from '../../../shared/utils/format'
 
 function DetailRow({ label, value }) {
   return (
-    <Box>
-      <Typography variant="overline" color="text.secondary" sx={{ fontWeight: 800 }}>
+    <Box
+      sx={{
+        p: 1.5,
+        borderRadius: 1.5,
+        background: 'linear-gradient(145deg, #082033 0%, #0f2742 65%, #14466c 100%)',
+        color: '#ffffff',
+      }}
+    >
+      <Typography variant="overline" sx={{ fontWeight: 800, color: 'inherit' }}>
         {label}
       </Typography>
-      <Typography variant="body1">{value || 'Not provided'}</Typography>
+      <Typography variant="body1" sx={{ color: 'inherit' }}>
+        {value || 'Not provided'}
+      </Typography>
     </Box>
   )
 }
@@ -114,7 +123,7 @@ function CrewMemberDetailsDrawer({
               <Divider />
 
               <Box>
-                <Typography variant="overline" color="text.secondary" sx={{ fontWeight: 800 }}>
+                <Typography variant="overline" color="text.white" sx={{ fontWeight: 800 }}>
                   Certificates
                 </Typography>
                 <Stack spacing={1.25} sx={{ mt: 1 }}>
@@ -131,16 +140,16 @@ function CrewMemberDetailsDrawer({
                         <Typography variant="subtitle2" sx={{ fontWeight: 800 }}>
                           {certificate.name || 'Unnamed certificate'}
                         </Typography>
-                        <Typography variant="body2" color="text.secondary">
+                        <Typography variant="body2" color="text.white">
                           {certificate.number || 'No number'} · {certificate.issuedBy || 'Unknown issuer'}
                         </Typography>
-                        <Typography variant="body2" color="text.secondary">
+                        <Typography variant="body2" color="text.white">
                           Issued {formatDate(certificate.issueDate)} · Expires {formatDate(certificate.expiryDate)}
                         </Typography>
                       </Box>
                     ))
                   ) : (
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" color="text.white">
                       No certificates are recorded yet.
                     </Typography>
                   )}
@@ -150,7 +159,7 @@ function CrewMemberDetailsDrawer({
               <Divider />
 
               <Box>
-                <Typography variant="overline" color="text.secondary" sx={{ fontWeight: 800 }}>
+                <Typography variant="overline" color="text.white" sx={{ fontWeight: 800 }}>
                   Assignment History
                 </Typography>
                 <Stack spacing={1.25} sx={{ mt: 1 }}>
@@ -169,14 +178,14 @@ function CrewMemberDetailsDrawer({
                             ? `${assignment.vessel.name} (${assignment.vessel.vesselCode})`
                             : assignment.vessel?.name || 'Unknown vessel'}
                         </Typography>
-                        <Typography variant="body2" color="text.secondary">
+                        <Typography variant="body2" color="text.white">
                           {(assignment.role || 'other').replace('_', ' ')} · {formatDate(assignment.startDate)}
                           {assignment.endDate ? ` to ${formatDate(assignment.endDate)}` : ''}
                         </Typography>
                       </Box>
                     ))
                   ) : (
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" color="text.white">
                       No assignment history is linked to this crew member yet.
                     </Typography>
                   )}
