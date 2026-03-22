@@ -18,10 +18,12 @@ import {
   Typography,
   useMediaQuery,
 } from '@mui/material'
+import ApartmentRoundedIcon from '@mui/icons-material/ApartmentRounded'
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded'
 import Groups2RoundedIcon from '@mui/icons-material/Groups2Rounded'
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded'
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded'
+import PeopleAltRoundedIcon from '@mui/icons-material/PeopleAltRounded'
 import SailingRoundedIcon from '@mui/icons-material/SailingRounded'
 import ShieldRoundedIcon from '@mui/icons-material/ShieldRounded'
 import SyncRoundedIcon from '@mui/icons-material/SyncRounded'
@@ -46,6 +48,24 @@ const navigation = [
     description: 'Crew records and access controls',
     to: '/users',
     icon: <Groups2RoundedIcon />,
+  },
+  {
+    label: 'Companies',
+    description: 'Ownership records for vessels and crew',
+    to: '/companies',
+    icon: <ApartmentRoundedIcon />,
+  },
+  {
+    label: 'Fleet Vessels',
+    description: 'Registration, status, and command details',
+    to: '/vessels',
+    icon: <SailingRoundedIcon />,
+  },
+  {
+    label: 'Crew Members',
+    description: 'Assignments, certifications, and availability',
+    to: '/crew-members',
+    icon: <PeopleAltRoundedIcon />,
   },
 ]
 
@@ -87,7 +107,7 @@ function AppShell() {
               Vessel Admin
             </Typography>
             <Typography variant="body2" className="admin-shell__brand-subtitle">
-              User manager console
+              Fleet operations console
             </Typography>
           </Box>
         </Box>

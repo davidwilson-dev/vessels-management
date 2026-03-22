@@ -42,13 +42,11 @@ const crewMemberSchema = new Schema(
       lowercase: true
     },
 
-    roles: [
-      {
-        type: String,
-        enum: CREW_ROLES,
-        index: true
-      }
-    ],
+    role: {
+      type: String,
+      enum: CREW_ROLES,
+      index: true
+    },
 
     rank: {
       type: String,

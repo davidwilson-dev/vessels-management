@@ -66,6 +66,7 @@ function UsersPage() {
   const [selectedUser, setSelectedUser] = useState(null)
   const [formMode, setFormMode] = useState('create')
   const [editingUser, setEditingUser] = useState(null)
+  const [isEditFormLoading, setIsEditFormLoading] = useState(false)
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [userToLock, setUserToLock] = useState(null)
   const [userToDelete, setUserToDelete] = useState(null)
@@ -75,6 +76,26 @@ function UsersPage() {
       dispatch(fetchUsers())
     }
   }, [dispatch, status])
+
+  useEffect(() => {
+    if (!isFormOpen || formMode !== 'edit' || !isEditFormLoading) {
+      return undefined
+    }
+
+    let secondFrameId = 0
+    const firstFrameId = window.requestAnimationFrame(() => {
+      secondFrameId = window.requestAnimationFrame(() => {
+        setIsEditFormLoading(false)
+      })
+    })
+
+    return () => {
+      window.cancelAnimationFrame(firstFrameId)
+      if (secondFrameId) {
+        window.cancelAnimationFrame(secondFrameId)
+      }
+    }
+  }, [formMode, isEditFormLoading, isFormOpen])
 
   const positionOptions = useMemo(
     () =>
@@ -156,6 +177,7 @@ function UsersPage() {
   const handleCreateOpen = () => {
     setFormMode('create')
     setEditingUser(null)
+    setIsEditFormLoading(false)
     setIsFormOpen(true)
     setPage(0)
   }
@@ -163,6 +185,7 @@ function UsersPage() {
   const handleEditOpen = (user) => {
     setFormMode('edit')
     setEditingUser(user)
+    setIsEditFormLoading(true)
     setIsFormOpen(true)
   }
 
@@ -182,6 +205,7 @@ function UsersPage() {
 
       setIsFormOpen(false)
       setEditingUser(null)
+      setIsEditFormLoading(false)
     } catch {
       // Mutation errors are already surfaced through Redux state.
     }
@@ -363,9 +387,11 @@ function UsersPage() {
         open={isFormOpen}
         mode={formMode}
         initialUser={editingUser}
+        loading={isEditFormLoading}
         onClose={() => {
           setIsFormOpen(false)
           setEditingUser(null)
+          setIsEditFormLoading(false)
         }}
         onSubmit={handleFormSubmit}
         submitting={mutationStatus === 'loading'}

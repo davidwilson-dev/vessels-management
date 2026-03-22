@@ -8,6 +8,13 @@ const currentYear = new Date().getFullYear();
 
 const vesselSchema = new Schema(
   {
+    vesselCode: {
+      type: String,
+      required: true,
+      trim: true,
+      uppercase: true
+    },
+
     name: {
       type: String,
       required: true,
@@ -23,15 +30,13 @@ const vesselSchema = new Schema(
 
     imoNumber: {
       type: String,
-      trim: true,
-      index: true
+      trim: true
     },
 
     amsaUvi: {
       type: String,
       trim: true,
-      lowercase: true,
-      index: true
+      lowercase: true
     },
 
     trailerRegNo: {
@@ -172,7 +177,7 @@ const vesselSchema = new Schema(
   baseSchemaOptions
 );
 
-vesselSchema.index({ company: 1, name: 1 }, { unique: true });
+vesselSchema.index({ vesselCode: 1 }, { unique: true });
 vesselSchema.index({ amsaUvi: 1 }, { unique: true, sparse: true });
 vesselSchema.index({ imoNumber: 1 }, { unique: true, sparse: true });
 

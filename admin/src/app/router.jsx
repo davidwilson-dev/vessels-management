@@ -13,7 +13,10 @@ import AppShell from '../shared/components/AppShell'
 import LoadingScreen from '../shared/components/LoadingScreen'
 import DashboardPage from '../features/dashboard/pages/DashboardPage'
 import LoginPage from '../features/auth/pages/LoginPage'
+import CompaniesPage from '../features/companies/pages/CompaniesPage'
 import UsersPage from '../features/users/pages/UsersPage'
+import VesselsPage from '../features/vessels/pages/VesselsPage'
+import CrewMembersPage from '../features/crew-members/pages/CrewMembersPage'
 import {
   restoreSession,
   selectCurrentUser,
@@ -83,6 +86,9 @@ function AppRouter() {
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/users" element={<UsersPage />} />
+            <Route path="/companies" element={<CompaniesPage />} />
+            <Route path="/vessels" element={<VesselsPage />} />
+            <Route path="/crew-members" element={<CrewMembersPage />} />
           </Route>
 
           <Route path="*" element={<Navigate to="/" replace />} />

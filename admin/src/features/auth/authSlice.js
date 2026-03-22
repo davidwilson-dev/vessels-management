@@ -98,5 +98,6 @@ export const selectCurrentUser = (state) => state.auth.currentUser
 export const selectIsBootstrapped = (state) => state.auth.isBootstrapped
 export const selectIsAuthenticated = (state) => Boolean(state.auth.currentUser && state.auth.accessToken)
 export const selectCanManageUsers = (state) => state.auth.currentUser?.role === 'admin'
+export const selectCanManageAdminResources = (state) => state.auth.currentUser?.role === 'admin'
 
 export default authSlice.reducer
